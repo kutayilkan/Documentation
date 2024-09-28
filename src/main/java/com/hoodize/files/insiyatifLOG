@@ -1,0 +1,67 @@
+1. Loglama Nedir?
+Loglama, uygulamaların çalışması sırasında meydana gelen olayların izlenmesi ve kaydedilmesi sürecidir. Bu kayıtlar, genellikle hataları bulmak, performansı izlemek, uygulamanın davranışını anlamak ve analiz etmek için kullanılır. Loglar, uygulama geliştiricilerine ve sistem yöneticilerine sistemin durumu hakkında bilgi verir.
+
+Log Seviyeleri:
+ERROR: Kritik hatalar; sistemin çalışmasını engelleyen durumlar.
+WARN: Uyarılar; bir problem olabilir, ancak sistem çalışmaya devam edebilir.
+INFO: Sistemle ilgili genel bilgilendirme mesajları.
+DEBUG: Uygulamanın nasıl çalıştığını anlamak için detaylı bilgi sağlar; genellikle geliştirme sırasında kullanılır.
+TRACE: Daha düşük seviyede, çok daha ayrıntılı loglama.
+2. Loglama Standartları ve En İyi Uygulamalar
+Formatlar: Logların okunabilir ve analiz edilebilir formatlarda olması önemlidir. Genellikle zaman damgası, log seviyesi, mesaj ve hata yeri gibi bilgileri içerir.
+Rotasyon: Log dosyaları büyüdükçe diski doldurabilir. Log rotasyonu, belli bir boyut veya zaman periyodundan sonra eski logların arşivlenmesi veya silinmesi işlemidir.
+En İyi Uygulamalar:
+Hassas bilgileri (şifreler, kredi kartı bilgileri) loglama.
+Belirli seviyelerde (örneğin sadece ERROR veya WARN) loglamanın açılması.
+Dağıtık sistemlerde logların merkezi bir yerde toplanması (centralized logging).
+3. Java'da Kullanılan Loglama Framework'leri
+Java’da loglama için popüler framework'ler bulunmaktadır. Bunlar loglamayı kolaylaştırır ve özelleştirilebilir yapılandırmalar sunar:
+
+a) Java Util Logging (JUL):
+Java'nın kendi içinde gelen basit bir loglama framework'üdür. Yeterli olmakla birlikte performans ve esneklik açısından sınırlıdır. Yine de, küçük projelerde kullanılabilir.
+
+b) Log4j ve Log4j2:
+Log4j, yıllarca en popüler loglama framework'ü olmuştur, ancak güvenlik sorunları nedeniyle yerini Log4j2 almıştır. Log4j2, çok güçlü ve performanslıdır.
+
+c) SLF4J (Simple Logging Facade for Java):
+SLF4J, farklı loglama framework'lerini tek bir arayüz altında birleştirir. Kullanıcıların backend loglama sistemini değiştirmesine izin verir (örneğin Logback ya da Log4j).
+
+d) Logback:
+SLF4J ile entegre çalışan bir loglama sistemi olup, Log4j'nin geliştirilmiş bir versiyonu olarak kabul edilir. Özelleştirme ve performans açısından oldukça güçlüdür.
+
+4. Loglama Yaklaşımları
+a) Senkron ve Asenkron Loglama:
+Senkron loglama: Loglama işlemi, olayla birlikte hemen gerçekleşir ve bu yüzden daha yavaş olabilir.
+Asenkron loglama: Loglama işlemi bir kuyruğa alınır ve daha sonra işlenir, bu da performansı artırır. Logback ve Log4j2 gibi framework'ler asenkron loglamayı destekler.
+b) Push ve Pull Yaklaşımı:
+Push: Loglar anında merkezi bir sunucuya veya veri deposuna gönderilir.
+Pull: İlgili servisler, logları gerektiğinde merkezi bir yerden çekebilir.
+c) Event-Driven Loglama:
+Bu yaklaşım, olay temelli sistemlerde kullanılır. Uygulamadaki her önemli olay loglanır. Bu olaylar, merkezi bir event bus veya message broker (örn: Kafka) aracılığıyla izlenir.
+
+Event Sourcing: Uygulamadaki her değişiklik bir olay olarak kaydedilir ve bu olaylar daha sonra analiz edilebilir. Kafka gibi platformlar event-driven loglama için sıklıkla kullanılır.
+d) Centralized Logging:
+Büyük veya dağıtık sistemlerde logların merkezi bir yerde toplanması kritik öneme sahiptir. Merkezi loglama sistemleri sayesinde, birden fazla kaynaktan gelen loglar analiz edilip raporlanabilir.
+
+Araçlar: Elastic Stack (ELK), Graylog, Splunk gibi araçlar merkezi loglama için yaygın olarak kullanılır.
+5. Hibernate Envers ile Versiyon Kontrolü ve Loglama
+Hibernate Envers, veritabanı değişikliklerini otomatik olarak takip eden ve versiyonlama işlemi gerçekleştiren bir araçtır. Bu araç, uygulamadaki veri değişikliklerini izleyip, eski versiyonları tutar.
+
+Envers'in Temel Kullanım Alanları:
+Auditing: Her veri güncellemesi loglanır. Bu sayede bir kullanıcının hangi veriyi, ne zaman değiştirdiğini izleyebilirsiniz.
+Veritabanı Geri Alma: Eski veri sürümlerine geri dönmek mümkündür.
+Loglama ve Versiyonlama: Değişiklikler aynı zamanda loglara kaydedilir, böylece uygulamanın veritabanı geçmişi incelenebilir.
+6. Loglama Konfigürasyonları
+Java loglama framework’lerinin çoğu XML, YAML veya properties dosyaları ile yapılandırılabilir.
+
+Konfigürasyon Dosyaları:
+Log4j2 ve Logback genellikle XML veya YAML ile yapılandırılır. Dosya rotasyonları, log seviyesi ve log çıktıları bu dosyalarda belirlenir.
+Rotasyon ve Retention:
+Dosya Rotasyonu: Log dosyaları belli bir boyuta ulaştığında eski dosyaların arşivlenmesi.
+Log Retention: Eski logların ne kadar süreyle saklanacağına dair politikaların belirlenmesi.
+7. Loglama ile İlgili Güvenlik ve GDPR Uyumları
+Günümüzde verilerin korunması önemli bir mevzuat haline gelmiştir. Loglama işlemleri sırasında bazı güvenlik önlemleri alınmalıdır:
+
+Hassas Verilerin Maskelenmesi: Kişisel bilgilerin ve finansal verilerin loglanmaması gereklidir.
+Anonymization: Kullanıcıya ait bilgilerin anonim hale getirilmesi.
+GDPR Uyumu: Avrupa Birliği'nde geçerli olan Genel Veri Koruma Yönetmeliği (GDPR), kullanıcı verilerinin nasıl loglanacağı ve saklanacağı konusunda çeşitli kurallar getirir.
