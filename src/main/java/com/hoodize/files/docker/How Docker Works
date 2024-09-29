@@ -1,0 +1,23 @@
+Standart paketleme sistemi kullanılıyor.
+Docker içerisinde uygulamayı çalıştıracak her şey mevcut. her kontainer birbirinden izoledir.
+
+çalıştırma komutu: docker run -p 8080:8080 -d spring-boot-docker şeklinde olmalıdır.
+Background
+
+Docker arkaplanda docker image i indirir ve çalıştırır. Docker image, docker container'ın çalıştırılabilmesi için gerekli olan dosyaları ve ayarları içerir.
+Bunu Docker Registery denilen bir yerden indirir. Docker Hub, en popüler Docker Registery'dir.
+https://hub.docker.com/ adresinden birçok hazır docker image'ına ulaşabilir.
+Image'lar set of bytesdır.
+Container'lar ise bu image'lar üzerinde çalışan instance'lardır.
+
+Status komutu: docker container ls şeklinde çalıştırılır. Çalışan container'ları listeler.
+Container ID uuid şeklinde bir id verir. bu id ile stop edilebilir.
+
+Lokal Makinedeki imageleri listelemek için: docker image ls komutunu kullanabiliriz.
+Docker Stop komutu: docker stop container_id şeklinde çalıştırılır. Çalışan bir container'ı durdurur. docker stop (container id'nin ilk 2 karakteri) şeklinde de çalıştırılabilir.
+
+
+-p hostPort:containerPort: Port mapping yapar. hostPort, containerPort'a yönlendirilir.
+birden fazla hostport aynı containerport'a yönlendirilebilir. düzgün çalışması için aynı uygulamaları aynı container içerisinde çalıştırmalıyız.
+Birden fazla instance gibi düşünebiliriz. her biri kendi portunu kullanır. Ancak container portuna bağlıdır. Bridge network.
+-d detach modda çalıştırır. yani arkaplanda çalışır. -d ile çalıştırmazsak terminalde çalışır ve terminali kapattığımızda container da kapanır.

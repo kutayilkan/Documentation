@@ -1,0 +1,8 @@
+TERMINOLOGY
+Dockerfile: Docker image'ını oluşturmak için kullanılan bir dosyadır. Dockerfile içerisinde image'ın nasıl oluşturulacağı adım adım belirtilir.
+Docker Image: Bizim uygulamamızın spesifik bir versiyonunu temsil eden bir pakettir. App'in her türlü ihtiyacını barındırır. (OS, sotfware, code, dependencies)
+//COPILOT açıklaması Dockerfile ile oluşturulan ve container'ların çalıştırılabilmesi için gerekli olan dosyaları ve ayarları içeren bir dosyadır. Docker image'ları immutable'dır.
+Docker Container: Docker image'ı üzerinde çalışan bir instance'dır.
+Docker Registry: Docker image'larının depolandığı yerdir. Docker Hub en popüler Docker Registry'dir.
+Docker Hub: Bir docker registry servisidir. Docker image'larına ev sahipliği yapar.
+Docker Repository: Docker image'larının depolandığı yerdir. Ayrı Ayrı isimlere sahiptir. Farklı versiyonlara sahip olabilir. Docker Hub'ta birçok repository bulunur. Github gibi.
