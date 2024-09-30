@@ -1,0 +1,44 @@
+Dockerfile - 1 BASIC - Creating Docker Images
+
+FROM openjdk: 18.0-slim
+COPY ${JAR_FILE} app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+FROM -> sets a base image. In this case, we are using openjdk: 18.0-slim
+COPY -> copies new files or directories into image. In this case, we are copying the jar file into the image.
+EXPOSE -> Dinlemesi gereken port. Informs docker about the port that the container listens on at runtime.
+ENTRYPOINT -> Configure a command that will be run at container launch. In this case, we are running the jar file.
+
+Dosya adı "Dockerfile" olmalı.
+Terminalden projeye gitmek lazım. Dockerfile'ın olduğu yere gitmek lazım.
+docker build -t in28min/hello-world-docker:v1 . komutu ile image oluşturulur. "." mevcut dizini temsil eder. v1 tag 'i temsil eder.
+docker image list komutu ile oluşturulan image'ı görebiliriz.
+docker run -d -p 8080:8080 in28min/hello-world-docker:v1 komutu ile container'ı çalıştırırız.
+
+
+Dockerfile - 2 - Multi Stage Docker Build
+
+FROM maven:3.8.6-openjdk-18-slim as build
+WORKDIR /home/app
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk: 18.0-slim
+VOLUME /tmp
+EXPOSE 8080
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+Jar file oluşturmak için maven gerekli. workdir vererek bütün dosyaların oradan çalışmasını sağlıyoruz. Copy ile dosyaları kopyalıyoruz. mvn clean package ile jar oluşturuyoruz.
+ilk aşama build stage. Sonunda Jar oluşacak.
+
+COPY --from ile build isimli (üstteki stagede oluşturduğumuz jar) stageden jar'ı alıp container'a kopyalıyoruz. 8080 portunda çalışan uygulama.
+2 from birbirinden farklı ilki oluştururken ihtiyacı olanlar. 2.si çalıştırması için gerekli olan. maven içerisinde bir sürü gereksiz dosya olabilir. ne kadar küçük imajı kullanırsam o kadar hızlı çalışır.
+
+
+ilk aşama jar oluşturmak için. İkinci aşama ise jar'ı çalıştırmak için.
+docker build -t in28min/hello-world-docker:v2 . komutu ile image oluşturulur. 2. versiyonu.
+
+Bu yapı sayesinde kodumuz dışında hiçbir şeyi lokalimizden kullanmaz. Ama buradaki sorun ufak bir değişiklik yapsanız dahi sürenin fazlasıyla uzun sürmesi. Çünkü her şeyi tekrar tekrar indirip kuruyor.
+Bu yüzden cache kullanmak önemli. Dockerfile'ın en üstüne bir değişiklik yaparsanız, o değişiklikten sonraki adımların hepsini tekrar çalıştırır.
