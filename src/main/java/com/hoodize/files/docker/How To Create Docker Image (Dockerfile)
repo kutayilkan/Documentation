@@ -42,3 +42,4 @@ docker build -t in28min/hello-world-docker:v2 . komutu ile image oluşturulur. 2
 
 Bu yapı sayesinde kodumuz dışında hiçbir şeyi lokalimizden kullanmaz. Ama buradaki sorun ufak bir değişiklik yapsanız dahi sürenin fazlasıyla uzun sürmesi. Çünkü her şeyi tekrar tekrar indirip kuruyor.
 Bu yüzden cache kullanmak önemli. Dockerfile'ın en üstüne bir değişiklik yaparsanız, o değişiklikten sonraki adımların hepsini tekrar çalıştırır.
+
