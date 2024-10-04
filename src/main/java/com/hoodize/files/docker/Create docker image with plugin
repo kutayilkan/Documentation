@@ -1,0 +1,23 @@
+Pom.xml içinde build tagi build plugini içerir.
+Spring boot maven plugin, projenin Apache maven ile build edilmesini sağlar.
+exp1 : executable jar oluşturmak için kullanılır.
+exp2 : Spring boot projesinin run edilmesi sağlayabilir.
+exp3 : Container imajı oluşturmak için kullanılabilir.
+
+Komutlar:
+mvn spring-boot:repackage -> jar ya da war oluşturur.
+mvn spring-boot:run -> projeyi çalıştırır.
+mvn spring-boot:start -> projeyi başlatır. (integrasyon testlerinde kullanılabilir.)
+mvn spring-boot:stop -> projeyi durdurur. start ile başlayan bir projeyi durdurur.
+mvn spring-boot:build-image -> container imajı oluşturur.
+
+
+mvn spring-boot:build-image -> container imajı oluşturur. bununla beraber Dockerfile'a ihtiyacımız kalmıyor.
+
+Spring boot maven plugin, OCI (Open Container Initiative) standardına uygun bir container imajı oluşturur. OCI ile uyumlu herhangi bir container runtime'ı ile çalışabilir.
+Docker Desktop, Docker Hub, Kubernetes, OpenShift, Amazon ECS, Google Kubernetes Engine, Azure Kubernetes Service, ve diğerleri gibi platformlar, OCI standardını destekler.
+Bu sayede, container imajınızı herhangi bir platformda çalıştırabilirsiniz.
+
+!!! Java 17 ve sonrasında çalışıyor.
+Kapladığı alan dockerfile ile oluşturulandan az.
+Örnek Dockerfile ile oluşturulan imaj 1.2 GB iken, spring-boot:build-image ile oluşturulan imaj 1.1 GB.

@@ -42,3 +42,30 @@ docker build -t in28min/hello-world-docker:v2 . komutu ile image oluşturulur. 2
 
 Bu yapı sayesinde kodumuz dışında hiçbir şeyi lokalimizden kullanmaz. Ama buradaki sorun ufak bir değişiklik yapsanız dahi sürenin fazlasıyla uzun sürmesi. Çünkü her şeyi tekrar tekrar indirip kuruyor.
 Bu yüzden cache kullanmak önemli. Dockerfile'ın en üstüne bir değişiklik yaparsanız, o değişiklikten sonraki adımların hepsini tekrar çalıştırır.
+
+
+Dockerfile - 3 - Improve Layer Caching
+
+FROM maven:3.8.6-openjdk-18-slim as build
+WORKDIR /home/app
+
+COPY ./pom.xml /home/app/pom.xml
+COPY ./src/main/java/com/hoodize/example/ExampleApplication.java /home/app/src/main/java/com/hoodize/DocumentationApplication.java
+
+RUN mvn -f /home/app/pom.xml clean package
+
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk: 18.0-slim
+EXPOSE 8080
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+Dockerfile'ın katmanlı yapısı sayesinde improve yapabiliyoruz.
+Dependecy'ler çok çok nadir değişir. Öncelikle pom.xml sorunda da source kod kopyalanıyor. Geri kalanı kopyalamıyoruz sonrasında run ediyoruz.
+Diğerleri sık sık değişebilecek. Yeni eklenebilecek çok fazla katman olduğu için diğer katmanda hepsini kopyalıyoruz. pom.xml ve belirli kodlar sık değişmiyorsa ayrıca belirtmek daha kullanışlı.
+
+Özet: öncelikle az kullanılanları al derle. sonra hepsini al ve derle. Sonra çalıştır. İlk RUN bütün dependencyleri indirecek. İkinci RUN ise sadece kodları indirecek. Bu sayede cache kullanımı artacak.
+sadece pom.xml ya da belirttiğimiz class değişirse üsttekiler çalışacak. Bu şekilde sürekli dependency indirip tekrar çalışmasını engellemiş oluyoruz.
+En çok zaman harcayan yer pom.xml kısmıdır. Amaç bunu azaltma. ilk build uzun olacak. Sonrasında app ya da pom.xml içerisinde değişiklik olmazsa hızlı olacak.
