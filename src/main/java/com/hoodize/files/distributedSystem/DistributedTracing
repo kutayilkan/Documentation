@@ -1,0 +1,18 @@
+Dağıtık sistemler karmaşık yapıya sahiplerdir. Trace ve debug etmesi zordur.
+Bu yüzden distributed tracing sistemleri kullanılır. bütün projeler için standart bir yapı oluşturulur. her proje buraya bağlıdır. Distributed Tracing Server da database e bağlıdır.
+Bağlı olduuğu dataaase in memory (bellek) ya da gerçek bir database olabilir.
+Zipkin ve Jaeger en popüler distributed tracing sistemleridir.
+
+ZIPKIN: docker run -d -p 9411:9411 openzipkin/zipkin:2.23 (zipkin server'ı çalıştırır).
+Docker Hub üzerinde son versiyonu bulunabilir. Zipkin server'ı çalıştırmak için bu komutu kullanabiliriz.
+
+Monitörle ve gözlemleyebilme: Monitörleme reactive bir yapıdır. Uygulamaların çalışma zamanında performanslarını ve durumlarını izlemek için kullanılır.
+Gözlemleme ise proactivedir. Uygulamaların çalışma zamanında performanslarını ve durumlarını önceden tahmin etmek için kullanılır.
+
+Monitörleme logları, metricleri inceleme. Gözlemleme ise bu log ve metriclerden gelecekteki durumları tahmin etme işlemidir.
+Monitörleme, Gözlemenin bir parçasıdır. data toplama kısmı aslında monitörlemedir.
+
+
+OpenTelemetry: OpenTelemetry, uygulamaların performanslarını ve durumlarını izlemek için kullanılan bir araçtır. OpenTelemetry, uygulamaların çalışma zamanında performanslarını ve durumlarını izlemek için kullanılan bir araçtır.
+Bütün uygulamalar metrik log ve trace'lere sahiptir. Hepsinin ayrı bir standartı vardı. OpenTelemetry bu standartları birleştirerek tek bir standart oluşturdu.
+Data toplama için kullanılır.
